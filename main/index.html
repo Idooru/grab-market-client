@@ -1,0 +1,65 @@
+<html>
+  <head>
+    <title>그랩마켓</title>
+    <link href="index.css" type="text/css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <div id="header">
+      <div id="header-area">
+        <img src="images/icons/logo.png" />
+      </div>
+    </div>
+    <div id="body">
+      <div id="banner">
+        <img src="images/banners/banner1.png" />
+      </div>
+      <h1>판매되는 상품들</h1>
+      <div id="product-list"></div>
+    </div>
+    <div id="footer"></div>
+  </body>
+  <script>
+    axios
+      .get(
+        "https://9f0f9f03-7255-4f4f-9844-ee8efe5e4ad4.mock.pstmn.io/products"
+      )
+      .then(function (response) {
+        console.log("통신 결과 : ", response);
+        const products = response.data.products;
+
+        let productsHtml = "";
+        for (var i = 0; i < products.length; i++) {
+          let product = products[i];
+          productsHtml =
+            productsHtml +
+            '<div class="product-card">' +
+            "<div>" +
+            '<img class="product-img" src="' +
+            product.imageUrl +
+            '" />' +
+            "</div>" +
+            '<div class="product-contents">' +
+            '<span class="product-name">' +
+            product.name +
+            "</span>" +
+            '<span class="product-price">' +
+            product.price +
+            "원" +
+            "</span>" +
+            '<div class="product-seller">' +
+            '<img class="product-avatar" src="images/icons/avatar.png" />' +
+            "<span>" +
+            product.seller +
+            "</span>" +
+            "</div>" +
+            "</div>" +
+            "</div>";
+        }
+        document.querySelector("#product-list").innerHTML = productsHtml;
+      })
+      .catch(function (error) {
+        console.error("error 발생 : ", error);
+      });
+  </script>
+</html>
